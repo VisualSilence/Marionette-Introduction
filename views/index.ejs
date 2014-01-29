@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1" />
+    <meta charset="utf8">
+
+    <title>Marionette Contact Manager</title>
+
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/styles/styles.css">
+</head>
+
+<body>
+
+    <script type="text/x-handlebars-template" id="contact-list">
+        <table>
+            <thead>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th />
+            </thead>
+            <tbody></tbody>
+        </table>
+    </script>
+
+    <script type="text/x-handlebars-template" id="contact-list-item">
+        <td>{{firstName}}</td>
+        <td>{{lastName}}</td>
+        <td>
+            <div class="btn-group">
+                <a href="#contacts/{{_id}}" class="btn btn-success btn-sm show">
+                    <span class="glyphicon glyphicon-eye-open"></span>
+                    Show
+                </a>
+                <button class="btn btn-danger btn-sm delete">
+                    <span class="glyphicon glyphicon-trash"></span>
+                    Delete
+                </button>
+            </div>
+        </td>
+    </script>
+
+    <script type="text/x-handlebars-template" id="contact-view">
+        <h1>{{firstName}} {{lastName}}</h1>
+        <p><strong>Phone Number:</strong> {{phoneNumber}}</p>
+    </script>
+
+    <script type="text/x-handlebars-template" id="missing-contact-view">
+        <h1>Error</h1>
+        <div class="alert alert-danger">The contact does not exist!</div>
+    </script>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Contact Manager</a>
+            </div>
+
+            <!--
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a href="#">Catalog</a>
+                    </li>
+                    <li>
+                        <a href="#about">Order History</a>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="../navbar/">Welcome, UserName</a>
+                    </li>
+                </ul>
+            </div>
+            -->
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Contact Manager<small>A Marionette experiment</small></h1>
+            <p>
+                Contact Manager is the project application built by <a target="_blank" href="http://davidsulc.com/">David Sulc</a> in
+                the <a target="_blank" href="https://leanpub.com/marionette-gentle-introduction">Backbone Marionette.js - A Gentle Introduction</a>. This
+                version of the project is an updated version that includes usage of Bootstrap 3 and some minor code changes from the samples
+                used in the book. This version of the demo application is built on top of Node.js, Express.js, and MongoDB. Additionally,
+                Underscore templates have been replaced with Handlebars templates in order to cleanly remove any conflict between EJS markers
+                and templates used by Backbone.Marionette.js
+            </p>
+        </div>
+        <div id="main-region" class="container">
+            <p>
+                Loading static content...
+            </p>
+        </div>
+    </div>
+
+    <script src="/libs/jquery-2.1.0.js"></script>
+    <script src="/libs/underscore.js"></script>
+    <script src="/libs/backbone.js"></script>
+    <script src="/libs/backbone.marionette.js"></script>
+    <script src="/libs/handlebars-v1.3.0.js"></script>
+
+    <script src="/apps/app.js"></script>
+    <script src="/apps/utils/global.js"></script>
+    <script src="/apps/entities/contact.js"></script>
+
+    <script src="/apps/contacts/contacts-app.js"></script>
+    <script src="/apps/contacts/list/list-view.js"></script>
+    <script src="/apps/contacts/list/list-controller.js"></script>
+    <script src="/apps/contacts/show/show-controller.js"></script>
+    <script src="/apps/contacts/show/show-view.js"></script>
+
+    <script>
+        (function() {
+            ContactManager.start();
+        })();
+    </script>
+</body>
+</html>

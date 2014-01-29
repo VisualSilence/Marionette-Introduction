@@ -1,0 +1,14 @@
+{
+    "name": "marionette-introduction",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "start": "node app.js"
+    },
+    "dependencies": {
+        "express": "3.4.8",
+        "ejs": "*",
+        "less-middleware": "*",
+        "mongoose": "~3.8.5"
+    }
+}
