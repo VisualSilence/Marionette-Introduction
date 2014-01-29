@@ -25,18 +25,44 @@
             contacts.fetch();
 		};
 
-		var API = {
+        var API = {
 			getContactEntities: function() {
 				if (!contacts) {
-					initializeContacts();
+					//initializeContacts();
+                    var contacts = new Entities.Contacts();
+                    var deferred = $.Deferred();
+
+                    contacts.fetch({
+                        success: function(data) {
+                            deferred.resolve(data);
+                        }
+                    });
+
+                    return deferred.promise();
 				}
 
 				return contacts;
-			}
+			},
+
+            getContactEntity: function(id) {
+                var contact = new Entities.Contact({ _id:id });
+                var deferred = $.Deferred();
+                contact.fetch({
+                    success: function(data) {
+                        deferred.resolve(data);
+                    }
+                });
+
+                return deferred.promise();
+            }
 		};
 
 		ContactManager.reqres.setHandler('contact:entities', function() {
 			return API.getContactEntities();
 		});
+
+        ContactManager.reqres.setHandler('contact:entity', function(id) {
+            return API.getContactEntity(id);
+        });
 	});
 })();
