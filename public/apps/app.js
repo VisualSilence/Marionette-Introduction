@@ -1,4 +1,24 @@
 (function() {
+
+    /*Backbone.Marionette.TemplateCache.prototype.loadTemplate = function (templateId, callback) {
+        var tmpId = templateId.replace("#", ""),
+            url = "/templates/" + tmpId + ".html";
+
+        $.get(url, function (templateHtml) {
+            compiledTemplate = Handlebars.compile($(templateHtml).html())
+            callback.call(this, compiledTemplate);
+        });
+    };
+
+    Backbone.Marionette.Renderer.renderTemplate = function (templateId, data) {
+        var renderer = $.Deferred();
+        Backbone.Marionette.TemplateCache.get(templateId, function(template){
+            var html = template(data);
+            renderer.resolve(html);
+        });
+        return renderer.promise();
+    };*/
+
 	// Create Marionette application
     ContactManager = new Marionette.Application();
 

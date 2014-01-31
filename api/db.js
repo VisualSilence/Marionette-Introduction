@@ -16,14 +16,15 @@ Db = (function() {
                 data: data || {},
                 code: data ? 200 : 404
             };
+
             next();
         });
     };
 
     var ContactSchema = schema({
-        firstName     :{type:String},
-        lastName      :{type:String},
-        phoneNumber   :{type:String}
+        firstName     :{type:String, required: true},
+        lastName      :{type:String, required: true},
+        phoneNumber   :{type:String, required: true}
     });
 
     var Contact = mongoose.model('Contact', ContactSchema, 'contacts');
@@ -65,13 +66,9 @@ Db = (function() {
                     return next(new Error('Invalid request'));
                 }
 
-                forwardDataPayload(req, next, Contact.findByIdAndUpdate(new ObjectId(req.body.id), {
-                    $set: {
-                        firstName: req.body.firstName,
-                        lastName: req.body.lastName,
-                        phoneNumber: req.body.phoneNumber
-                    }
-                }));
+                var data = req.body;
+                delete data._id;
+                forwardDataPayload(req, next, Contact.findByIdAndUpdate({_id:req.params.id}, { $set: data }));
             },
 
             remove: function(req, res, next) {
@@ -79,7 +76,7 @@ Db = (function() {
                     return next(new Error('Invalid request'));
                 }
 
-                var query = Contact.remove({_id: new ObjectId(req.params.id)});
+                var query = Contact.remove({_id:req.params.id});
                 query.exec(function(error) {
                     if (error) {
                         return next(error);

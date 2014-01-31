@@ -10,7 +10,17 @@
 				firstName: '',
 				lastName: '',
 				phoneNumber: ''
-			}
+			},
+            validate: function(attrs, options) {
+                var errors = {};
+                if (!attrs.firstName) { errors.firstName = 'First name is required'; }
+                if (!attrs.lastName) { errors.lastName = 'Last name is required'; }
+                if (!attrs.phoneNumber) { errors.phoneNumber = 'Phone number is required'; }
+
+                if (!_.isEmpty(errors)) {
+                    return errors;
+                }
+            }
 		});
 
 		Entities.Contacts = Backbone.Collection.extend({
@@ -19,39 +29,53 @@
 			comparator: 'firstName'
 		});
 
-		var contacts = null;
-		var initializeContacts = function() {
-            contacts = new Entities.Contacts();
-            contacts.fetch();
-		};
-
-        var API = {
+		var API = {
 			getContactEntities: function() {
-				if (!contacts) {
-					//initializeContacts();
-                    var contacts = new Entities.Contacts();
-                    var deferred = $.Deferred();
-
+                var contacts = new Entities.Contacts();
+                var deferred = $.Deferred();
+                setTimeout(function() {
                     contacts.fetch({
                         success: function(data) {
                             deferred.resolve(data);
+                        },
+                        error: function(data) {
+                            deferred.resolve(data);
                         }
                     });
+                }, 500);
 
-                    return deferred.promise();
-				}
-
-				return contacts;
+                return deferred.promise();
 			},
 
             getContactEntity: function(id) {
                 var contact = new Entities.Contact({ _id:id });
                 var deferred = $.Deferred();
-                contact.fetch({
-                    success: function(data) {
-                        deferred.resolve(data);
-                    }
-                });
+                setTimeout(function() {
+                    contact.fetch({
+                        success: function(data) {
+                            deferred.resolve(data);
+                        },
+                        error: function(data) {
+                            deferred.resolve(null);
+                        }
+                    });
+                }, 500);
+
+                return deferred.promise();
+            },
+
+            saveContact: function(model, data) {
+                var deferred = $.Deferred();
+                setTimeout(function() {
+                    model.save(data, {
+                        success: function(data){
+                            deferred.resolve(data);
+                        },
+                        error: function(data){
+                            deferred.resolve(null);
+                        }
+                    });
+                }, 500);
 
                 return deferred.promise();
             }
@@ -63,6 +87,10 @@
 
         ContactManager.reqres.setHandler('contact:entity', function(id) {
             return API.getContactEntity(id);
+        });
+
+        ContactManager.reqres.setHandler('contact:save', function(model, data) {
+            return API.saveContact(model, data);
         });
 	});
 })();

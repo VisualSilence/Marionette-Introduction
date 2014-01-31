@@ -5,13 +5,9 @@
 			tagName: 'tr',
 
 			events: {
-				'click': 'highlightRow',
 				'click .delete': 'delete',
-                'click .show': 'show'
-			},
-
-			highlightRow:  function(e) {
-				this.$el.toggleClass('warning');
+                'click .show': 'show',
+                'click .edit': 'edit'
 			},
 
 			delete: function(e) {
@@ -31,6 +27,12 @@
                 e.preventDefault();
                 e.stopPropagation();
                 this.trigger('contact:show', this.model);
+            },
+
+            edit: function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                this.trigger('contact:edit', this.model);
             }
 		});
 
@@ -46,5 +48,9 @@
                 // composite view
             }
 		});
+
+        List.EmptyContacts = Marionette.ItemView.extend({
+            template: Handlebars.compile($('#empty-contact-list').html())
+        });
 	});
 })();

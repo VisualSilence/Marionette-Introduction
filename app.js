@@ -39,6 +39,7 @@ app.get('/', routes.index);
 
 app.get('/services/v1/contacts', db.contacts.fetchAll, routes.services.respond);
 app.get('/services/v1/contacts/:id', db.contacts.fetchById, routes.services.respond);
+app.put('/services/v1/contacts/:id', db.contacts.update, routes.services.respond);
 app.del('/services/v1/contacts/:id', db.contacts.remove, routes.services.respond);
 
 http.createServer(app).listen(app.get('port'), function(){
