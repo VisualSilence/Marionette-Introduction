@@ -15,16 +15,18 @@
                     ContactManager.mainRegion.show(view);
 
                     view.on('contact:save', function(data) {
-                        ContactManager.mainRegion.show(new ContactManager.Common.Views.Loading({
-                            loadHeading: 'Saving',
-                            loadMessage: ContactManager.Utils.stringFormat('Please wait while the contact information for {0} is updated...', [model.get('firstName')])
-                        }));
+                        if (model.save(data)) {
+                            ContactManager.mainRegion.show(new ContactManager.Common.Views.Loading({
+                                loadHeading: 'Saving',
+                                loadMessage: ContactManager.Utils.stringFormat('Please wait while the contact information for {0} is updated...', [model.get('firstName')])
+                            }));
 
-                        var savingContact = ContactManager.request('contact:save', model, data);
-                        $.when(savingContact).done(function(data) {
                             ContactManager.trigger('contact:show', model.get('_id'));
-                        });
+                        } else {
+                            view.triggerMethod('contact:save:invalid', model.validationError);
+                        }
                     });
+
                 });
             }
         };

@@ -67,14 +67,17 @@
             saveContact: function(model, data) {
                 var deferred = $.Deferred();
                 setTimeout(function() {
-                    model.save(data, {
+                    if (!model.save(data, {
                         success: function(data){
+                            console.log('SUCCESS Saving');
                             deferred.resolve(data);
                         },
                         error: function(data){
                             deferred.resolve(null);
                         }
-                    });
+                    })) {
+                        deferred.resolve(null);
+                    }
                 }, 500);
 
                 return deferred.promise();
